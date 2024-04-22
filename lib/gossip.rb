@@ -10,15 +10,15 @@ class Gossip
   end
 
   def save
-    CSV.open("./db/gossip.csv", "ab") do |csv|
-      csv << [author, content]
+    CSV.open("db/gossip.csv", "ab") do |csv|
+      csv << [@author, @content]
     end
   end
 
   def self.all
     all_gossips = []
 
-    CSV.foreach('./db/gossip.csv') do |row|
+    CSV.foreach('db/gossip.csv') do |row|
       author, content = row
       gossip = Gossip.new(author, content)
       all_gossips << gossip

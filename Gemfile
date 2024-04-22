@@ -6,4 +6,5 @@ gem 'coderay', '1.1.3'
 gem 'csv'
 gem 'sinatra'
 gem 'rackup'
-gem "rerun", "~> 0.14.0"
+gem 'rerun', "~> 0.14.0"
+gem 'bundle'

@@ -1,35 +1,29 @@
 require 'csv'
 
 class Gossip
-  attr_accessor :author
-  attr_accessor :content
+  attr_reader :id, :author, :content
 
-  def initialize(author, content)
+  def initialize(id, author, content)
+    @id = id
     @author = author
     @content = content
   end
 
   def save
-    CSV.open("db/gossip.csv", "ab") do |csv|
-      csv << [@author, @content]
+    CSV.open("db/gossip.csv", "a") do |csv|
+      csv << [@id, @author, @content]
     end
   end
 
   def self.all
-    all_gossips = []
-
-    CSV.foreach('db/gossip.csv') do |row|
-      author, content = row
-      gossip = Gossip.new(author, content)
-      all_gossips << gossip
+    CSV.read('db/gossip.csv').map do |row|
+      id, author, content = row
+      Gossip.new(@id, @author, @content)
     end
-
-    all_gossips
   end
 
   def self.find(id)
-    all_gossips = Gossip.all
-    return all_gossips[id - 1] if id > 0 && id <= all_gossips.length
-    nil
+    all_gossips = self.all
+    all_gossips.find { |gossip| gossip.id == id }
   end
 end
